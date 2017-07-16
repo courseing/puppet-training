@@ -1,0 +1,22 @@
+--- Instructions to setup r10k step by stem
+-- Install r10k via Ruby Gems.
+
+/opt/puppetlabs/puppet/bin/gem install r10k
+
+-- run below command to confim if r10k is installed
+/opt/puppetlabs/puppet/bin/r10k
+
+-- switch to below directory and create a file to install puppetlabs/stdlib module
+cd /etc/puppetlabs/code/environments/production
+nano Puppetfile 
+-- add below content in file and save the file
+forge 'http:://forge.puppetlabs.com'
+mod 'puppetlabs/stdlib', '4.17.0'
+
+-- run below command to execute Puppetfile
+/opt/puppetlabs/puppet/bin/r10k puppetfile install
+
+-- run below command on command line to confirm if stdlib module is installed successfully
+puppet apply -e "notice(upcase('hello'))"
+
+--
