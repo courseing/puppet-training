@@ -1,0 +1,12 @@
+-- Puppet is not in the CentOS yum repository list by default, so we have to install that first before we can invoke yum.
+rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm
+
+--confirm that the Puppet repository has been installed 
+yum repolist | grep puppet
+
+-- install Puppet using yum. 
+yum -y install puppet
+
+--Test that Puppet is installed and working with the following command.
+puppet --version
+
