@@ -1,0 +1,51 @@
+-- Before proceeding, make sure IP Address, Host Name, FQDN is configured
+-- make sure Firewall is disabled
+-- follow below link to configure above settings
+https://github.com/courseing/linux-training/blob/master/centos7-commands
+
+-- Login to master server and apply below settings
+hostnamectl set-hostname puppetserver.devops.com
+-- find out the IP Address using below command 
+ifconfig
+
+ -- change /etc/hosts file and add below details
+192.168.56.101 puppet, puppetserver.courseing.com
+192.168.56.102 puppetagent.courseing.com                    # IP Address of agent
+
+-- Login to agent server and apply below settings
+hostnamectl set-hostname puppetagent.devops.com
+-- find out the IP Address using below command 
+ifconfig
+
+ -- change /etc/hosts file and add below details
+192.168.56.101 puppetserver.courseing.com       # IP Address of master
+192.168.56.102 puppetagent.courseing.com                    
+
+-- Login to master server
+ping puppetagent.courseing.com
+ping 192.168.56.102 
+
+-- Install Puppet Server
+rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm
+yum repolist | grep puppet
+yum -y install puppetserver
+systemctl start puppetserver
+
+--- Login to Agent and try to ping Master using below command
+telnet puppetserver.courseing.com 8140
+ping 192.168.56.101
+
+-- Install Puppet Agent
+rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm
+yum repolist | grep puppet
+yum -y install puppetagent
+systemctl start puppetagent
+
+-- Once its install 
+
+
+
+
+
+
+
