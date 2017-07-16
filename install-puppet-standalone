@@ -10,3 +10,19 @@ yum -y install puppet
 --Test that Puppet is installed and working with the following command.
 puppet --version
 
+-- you must setup hostname and fqdn to work with puppet
+
+-- follow below link to find commands to change hostname and fqdn
+https://github.com/courseing/centos7-linux-training-commands
+
+-- to confirm if puppet is working fine, run below command
+puppet apply -e "notice('hello there, I am Puppet and doing great')"
+
+-- to confirm if puppet is working fine using Puppet file
+nano puppettest.pp
+
+-- add below content in file and save
+notice('Hello, there')
+
+-- save the file and run below command
+puppet apply puppettest.pp
