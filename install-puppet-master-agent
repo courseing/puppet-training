@@ -26,7 +26,7 @@ ping puppetagent.courseing.com
 ping 192.168.56.102 
 
 -- Install Puppet Server
-rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm
+sudo rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
 yum repolist | grep puppet
 yum -y install puppetserver
 systemctl start puppetserver
@@ -36,7 +36,7 @@ telnet puppetserver.courseing.com 8140
 ping 192.168.56.101
 
 -- Install Puppet Agent
-rpm -ivh http://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm
+sudo rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
 yum repolist | grep puppet
 yum -y install puppetagent
 systemctl start puppetagent
