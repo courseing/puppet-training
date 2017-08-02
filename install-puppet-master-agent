@@ -1,51 +1,87 @@
--- Before proceeding, make sure IP Address, Host Name, FQDN is configured
--- make sure Firewall is disabled
--- follow below link to configure above settings
-https://github.com/courseing/linux-training/blob/master/centos7-commands
+- configure puppet master  agent
 
--- Login to master server and apply below settings
-hostnamectl set-hostname puppetserver.devops.com
--- find out the IP Address using below command 
-ifconfig
+--find the ipaddress of both machines using below command
+> ifconfig
+-- edit hosts file on both master and agent machines
+> nano /etc/hosts 
+	192.168.56.101 puppet, server.devops.com
+	192.168.56.102 client.devops.com
+-- disable firewall using below command
+> iptables -F
 
- -- change /etc/hosts file and add below details
-192.168.56.101 puppet, puppetserver.courseing.com
-192.168.56.102 puppetagent.courseing.com                    # IP Address of agent
+-- Login into Master server and run following commands
+-- [[ Puppet is not in the CentOS yum repository list by default, so we have to install that first before we can invoke yum. ]]
 
--- Login to agent server and apply below settings
-hostnamectl set-hostname puppetagent.devops.com
--- find out the IP Address using below command 
-ifconfig
+rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
 
- -- change /etc/hosts file and add below details
-192.168.56.101 puppetserver.courseing.com       # IP Address of master
-192.168.56.102 puppetagent.courseing.com                    
-
--- Login to master server
-ping puppetagent.courseing.com
-ping 192.168.56.102 
-
--- Install Puppet Server
-sudo rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
 yum repolist | grep puppet
+
+-- install Puppet using yum. 
 yum -y install puppetserver
+
+-- start puppet service
 systemctl start puppetserver
 
---- Login to Agent and try to ping Master using below command
-telnet puppetserver.courseing.com 8140
-ping 192.168.56.101
+-- Disable Firewall
+# iptables -F
 
--- Install Puppet Agent
-sudo rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
+-- Login into agent and run following commands
+-- [[ Puppet is not in the CentOS yum repository list by default, so we have to install that first before we can invoke yum. ]]
+
+rpm -ivh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
+
 yum repolist | grep puppet
-yum -y install puppetagent
-systemctl start puppetagent
 
--- Once its install 
+-- install Puppet using yum. 
+yum -y install puppet-agent
+
+-- start puppet service
+systemctl start puppet
+
+-- to sign the certificate run below command on agent
+puppet agent --test
+
+-- to see certificate sign request on master, run below command on master
+puppet cert list
+
+-- to sign a request run below command on master
+puppet cert sign client.devops.com
+
+-- run below command to verify if signing is completed successfully
+puppet agent --test 
+
+-- to find out all signed request, run below on master
+puppet cert list --all
+
+-- to execute file on agent manually, run below command
+puppet agent --test
+
+-- create manifest file under below path
+/etc/puppetlabs/code/environment/production/manifests/createfile.pp
 
 
+node "puppetserver.courseing.com" { # master host name
+file { '/root/example_file.txt':
+    ensure => "file",
+    owner  => "root",
+    group  => "root",
+    mode   => "700",
+    content => "Congratulations!
+Puppet has created this file.
+",}
 
+node "puppetagent.courseing.com" { # agent hostname
+file { '/root/example_file.txt':
+    ensure => "file",
+    owner  => "root",
+    group  => "root",
+    mode   => "700",
+    content => "Congratulations!
+Puppet has created this file.
+",}
 
+-- run below command on master to apply above script
+puppet apply createfile.pp
 
-
-
+-- run below command on agent to apply above script
+puppet agent --test
