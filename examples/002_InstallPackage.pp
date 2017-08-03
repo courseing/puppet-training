@@ -1,0 +1,1 @@
+package { 'cowsay':  ensure => installed,}
