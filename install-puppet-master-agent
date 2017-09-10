@@ -19,8 +19,15 @@ yum repolist | grep puppet
 -- install Puppet using yum. 
 yum -y install puppetserver
 
--- start puppet service
-systemctl start puppetserver
+-- start puppet service 
+systemctl start puppetserver 
+
+-- incase if puppetserver is not started, type below command on terminal 
+java
+-- if you find command not found message then run below commands 
+alternatives --install /usr/bin/java java /usr/java/latest/bin/java 200000
+alternatives --install /usr/bin/javac javac /usr/java/latest/bin/javac 200000
+alternatives --install /usr/bin/jar jar /usr/java/latest/bin/jar 200000
 
 -- Disable Firewall
 # iptables -F
