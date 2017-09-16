@@ -1,0 +1,5 @@
+You can find puppet log under following folder
+
+/var/log/puppetlabs/puppet
+/var/log/puppetlabs/puppetserver
+
