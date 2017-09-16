@@ -1,0 +1,29 @@
+--------------------------------------------------------------------------------
+Managed by CourseIng - Best DevOps Training Institute in Hyderabad India
+Puppets Training Institute in Hyderabad, India  
+Puppet Classroom and Online Training
+http://www.courseing.com/learn/devops-online-training
+http://www.courseing.com/
+Email : courseing@gmail.com
+Phone : +91 - 72072 10101
+---------------------------------------------------------------------------------
+
+
+The runinterval setting should be placed in the [agent] section of puppet.conf, 
+and athere's no need to restart the puppet master. 
+If your agents are daemonized, the setting controls how often they connect to the master for updates.
+
+#puppet agent --configprint all|grep -i runinterval
+
+default is runinterval = 1800 30 minutes = 1800 seconds
+change it using below command 
+
+#puppet config set runinterval 28800 
+28000 seconds = 8 hours
+
+Run interval could be checked using single command:
+#puppet agent --configprint runinterval
+
+add following lines to /etc/puppet/puppet.conf or /etc/puppetlabs/puppet/puppet.conf
+[agent]
+runinterval=1800
