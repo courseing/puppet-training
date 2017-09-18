@@ -1,1 +1,8 @@
-puppet epp validate template_params.epp
+Validating template syntax
+#puppet epp validate template_params.epp
+
+Rendering templates on the command line
+#puppet epp render --values "{ 'aws_access_key' => 'foo', 'aws_secret_key' => 'bar' }" /vagrant/examples/template_params.epp
+
+test your templates directly, using a command similar to the following:
+#puppet apply -e "file { '/tmp/result': content => epp('template_iterate.epp')}"
