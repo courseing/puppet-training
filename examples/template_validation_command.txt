@@ -1,1 +1,1 @@
-puppet epp validate /vagrant/examples/template_params.epp
+puppet epp validate template_params.epp
